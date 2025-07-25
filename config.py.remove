@@ -1,0 +1,9 @@
+#Токен бота telegram. Получать у @botfather
+BOT_TOKEN = ""
+
+# Токен openweather. Получать на сайте openweather после регистрации
+OPEN_WEATHER_TOKEN = ""
+
+# Пользователи, которые могут использовать бот
+# Скоро будет заменено
+USERS = []
