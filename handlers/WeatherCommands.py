@@ -6,7 +6,7 @@ from aiogram import Bot, Router
 from asyncio import sleep
 from markups.jobs_text import get_job_text
 from database.users import get_user, add_jobs, delete_jobs
-from markups.error_text import get_weather_error
+from markups.error_text import get_weather_error, get_weather_error2
 from aiogram.types import Message
 from aiogram.filters import Command, CommandObject
 from apscheduler.jobstores.base import JobLookupError
@@ -19,20 +19,30 @@ dp = Router()
 
 @dp.message(Command("weather"))
 async def weather(message: Message, bot: Bot, command: CommandObject):
-    args = command.args.split()
     try:
-        weather = await get_weather(args[0])
-        texting = await get_weather_text(weather)
-        await bot.send_message(chat_id=message.from_user.id, text=f"{texting}")
-    except KeyError:
-        bot_message = await message.answer('⚠️ <b>Введенный город не существует</b>')
-        await sleep(5)
-        await bot.delete_message(chat_id=message.from_user.id, message_id=message.message_id)
-        await bot_message.delete()
+        args = command.args.split()
+    except AttributeError:
+        args = [0]
+    if len(args) != 2:
+        error_text = await get_weather_error2()
+        await message.reply(text=error_text)
+    else:
+        try:
+            weather = await get_weather(args[0])
+            texting = await get_weather_text(weather)
+            await bot.send_message(chat_id=message.from_user.id, text=f"{texting}")
+        except KeyError:
+            bot_message = await message.answer('⚠️ <b>Введенный город не существует</b>')
+            await sleep(5)
+            await bot.delete_message(chat_id=message.from_user.id, message_id=message.message_id)
+            await bot_message.delete()
 
 @dp.message(Command("set"))
 async def weather(message: Message, bot: Bot, command: CommandObject, scheduler: AsyncIOScheduler):
-    args = command.args.split()
+    try:
+        args = command.args.split()
+    except AttributeError:
+        args = [0]
     if len(args) != 2:
         error_text = await get_weather_error()
         await message.reply(text=error_text)
