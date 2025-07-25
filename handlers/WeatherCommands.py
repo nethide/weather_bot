@@ -1,5 +1,6 @@
 from functions.get_weather import get_weather
 from markups.weather_text import get_weather_text
+import redis
 from functions.scheduler_message import send_weather_message
 from aiogram import Bot, Router
 from asyncio import sleep
@@ -65,10 +66,12 @@ async def weather(message: Message, bot: Bot, command: CommandObject, scheduler:
                         scheduler.remove_job(job_id=user[3])
                     except JobLookupError:
                         logging.info(f'Работа с id {user[3]} не найдена.')
+                    except redis.exceptions.DataError:
+                        logging.info(f'Работа с id {user[3]} не найдена.')
                     await delete_jobs(message.from_user.id)
                     schedule = scheduler.add_job(send_weather_message, 'cron',
                                                  hour=execute_hour,
-                                                 kwargs={'user_id': message.from_user.id, 'city': args[0]})
+                                                 kwargs={'user_id': user[0],'city': args[0]})
                     await message.reply(f"{texing}")
                     await add_jobs(schedule.id, message.from_user.id)
             except IndexError:
