@@ -23,7 +23,7 @@ async def weather(message: Message, bot: Bot, command: CommandObject):
         args = command.args.split()
     except AttributeError:
         args = [0]
-    if len(args) != 2:
+    if len(args) != 1:
         error_text = await get_weather_error2()
         await message.reply(text=error_text)
     else:
