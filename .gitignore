@@ -209,3 +209,4 @@ __marimo__/
 #config
 config.py
 settings.db
+py.log

@@ -68,7 +68,7 @@ async def weather(message: Message, bot: Bot, command: CommandObject, scheduler:
                     await delete_jobs(message.from_user.id)
                     schedule = scheduler.add_job(send_weather_message, 'cron',
                                                  hour=execute_hour,
-                                                 kwargs={'user_id': message.from_user.id, 'city': args[0], 'bot': bot})
+                                                 kwargs={'user_id': message.from_user.id, 'city': args[0]})
                     await message.reply(f"{texing}")
                     await add_jobs(schedule.id, message.from_user.id)
             except IndexError:
