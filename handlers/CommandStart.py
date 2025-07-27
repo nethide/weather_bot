@@ -1,10 +1,12 @@
+import logging
+
+from aiogram import Router
 from aiogram.filters import CommandStart
 from aiogram.types import Message
-from aiogram import Router
-from markups.start_text import get_start_text
+
 from database.create_database import create_database
 from database.users import check_user, insert_user
-import logging
+from markups.start_text import get_start_text
 
 dp = Router()
 

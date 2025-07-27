@@ -1,14 +1,15 @@
-from logging import basicConfig as LoggingConfig
 import logging
 from asyncio import run
+
 from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
 from apscheduler.jobstores.redis import RedisJobStore
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from aiogram.client.default import DefaultBotProperties
-from middlewares.job_to_handler import SchedulerMiddleware
 from apscheduler_di import ContextSchedulerDecorator
-from aiogram.enums import ParseMode
+
 from config import BOT_TOKEN
+from middlewares.job_to_handler import SchedulerMiddleware
 
 logging.basicConfig(level=logging.INFO, handlers=[
     logging.FileHandler('py.log'),

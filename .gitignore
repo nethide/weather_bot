@@ -209,4 +209,5 @@ __marimo__/
 #config
 config.py
 settings.db
+temp_data.db
 py.log
