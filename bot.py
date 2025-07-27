@@ -4,6 +4,7 @@ from asyncio import run
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
+from aiogram.fsm.storage.redis import RedisStorage
 from apscheduler.jobstores.redis import RedisJobStore
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler_di import ContextSchedulerDecorator
@@ -16,7 +17,8 @@ logging.basicConfig(level=logging.INFO, handlers=[
     logging.StreamHandler()
 ])
 bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-dp = Dispatcher()
+storage = RedisStorage.from_url('redis://localhost:6379/0')
+dp = Dispatcher(storage=storage)
 
 from handlers.WeatherCommands import dp as weather_router
 from handlers.CommandStart import dp as start_souter
