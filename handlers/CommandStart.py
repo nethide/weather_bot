@@ -7,6 +7,7 @@ from aiogram.types import Message
 from database.create_database import create_database
 from database.users import check_user, insert_user
 from markups.start_text import get_start_text
+import markups.buttons as buttons
 
 dp = Router()
 
@@ -18,4 +19,4 @@ async def start(message: Message):
     if check is False:
         await insert_user(message.from_user.id)
         logging.info(f'{message.from_user.id} добавлен в базу')
-    await message.reply(text=texting)
+    await message.reply(text=texting, reply_markup=buttons.github_button)
